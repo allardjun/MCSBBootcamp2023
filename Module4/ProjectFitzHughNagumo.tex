@@ -1,0 +1,150 @@
+\documentclass{exam}
+\usepackage[utf8]{inputenc}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{multicol}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage[version=3]{mhchem}
+\usepackage{listings}
+\usepackage{color}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Matlab,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{0.05in}
+
+%\include{preamble}
+
+%\renewcommand{\thesection}{{Part \arabic{section}}}
+
+% Header and footer
+\pagestyle{headandfoot}
+\header{UCI MCSB Bootcamp Dry (Mathematical/Computational)}{}{}
+\headrule
+%\footer{\it{jun.allard@uci.edu}}{}{Page \thepage\ of \numpages}
+\footrule
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Project 6.2: FitzHugh-Nagumo}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+ 
+ The phenomenon of excitability exists in many biological systems, including in the electrophysiology of neurons. The FitzHugh-Nagumo equations
+ \begin{align}
+ \frac{d v}{dt} &= v - \frac{1}{3} v^3 - w \\
+ \frac{d w}{dt} &= \epsilon \left( v + a - bw\right)
+ \end{align}
+ describe neuron electrophysiology where, roughly speaking, $v$ is the electrical potential (voltage) across the cell's membrane, and $w$ is the activity of ion pumps. The parameters $\epsilon$, $a$ and $b$ represent properties of the ion pumps. The model has been nondimensionalized. Both $v$ and $w$ can be negative or positive.
+ 
+ 
+\begin{enumerate}
+\item Confirm that for $\epsilon=0.08$, $a=0.5$, $b=0.2$, the system is oscillatory.
+\item Confirm that for $\epsilon=0.08$, $a=1.0$, $b=0.2$. the system is has the following property: if you choose initial conditions $v(0)=-1.5, w(0)=-0.5$, the system evolves directly towards a stable steady state, but if you choose initial conditions $v(0)=-0.0, w(0)=-0.5$, the system moves away from the steady state, before eventually converging towards the steady state. This behavior is called \textit{excitability}. At these parameters, what is the steady state value of $v$ and $w$?
+\end{enumerate}
+
+Assume the neuron is at rest (at its steady state), and another cell injects a current into it. The current is injected between $t=40$ and $t=47$, and has a strength of $I_0=1.0$. In the model, this means 
+ \begin{align}
+ \frac{d v}{dt} &= v - \frac{1}{3} v^3 - w +I(t)\\
+ \frac{d w}{dt} &= \epsilon \left( v + a - bw\right) 
+ \end{align}
+ where 
+ \begin{equation}
+ I(t) = \begin{cases}
+ I_0 & \qquad t_{\rm start}<t < t_{\rm stop}\\
+ 0 & \qquad \mbox{otherwise}
+ \end{cases}
+ \end{equation}
+or, in Matlab,
+\begin{lstlisting}
+I0 = 1.0;
+tStart = 40;
+tStop = 47;
+I =@(t) I0*(t>tStart).*(t<tStop);
+\end{lstlisting}
+
+\begin{enumerate}
+\setcounter{enumi}{2}
+\item At the excitable parameters from above ($a=1.0$), simulate the system with initial conditions at the steady state (or very close), and simulate a 7-second injection starting at $t=40$ as above.
+\end{enumerate}
+
+
+Neurons are connected in a neural network. Suppose there are ten cells, each with membrane potential and ion pump activity obeying the FitzHugh-Nagumo equations for $v_i(t)$ and $w_i(t)$ where $i=1..10$ indexes the cells. The cells are electrically connected so that 
+ \begin{align}
+ \frac{d v_i}{dt} &= v_i - \frac{1}{3} v_i^3 - w_i +I_i(t) + D\left( v_{i-1} - 2 v_i + v_{i+1}\right)\\
+ \frac{d w_i}{dt} &= \epsilon \left( v_i + a - bw_i\right) 
+ \end{align}
+where $D=0.9$ is a new parameter that described the electrical connectivity of the neighboring cells. The ion pumps are not connected between cells, so the $w$ equation is unchanged. For simplicity, let's assume the cells are connected in a ring, so that 
+\begin{equation}
+ \frac{d v_1}{dt} = v_1 - \frac{1}{3} v_1^3 - w_1 +I_1(t) + D\left( v_{10} - 2 v_1 + v_{2}\right)\\
+\end{equation}
+and similarly for the tenth cell,
+\begin{equation}
+ \frac{d v_{10}}{dt} = v_1 - \frac{1}{3} v_1^3 - w_1 +I_{10}(t) + D\left( v_{9} - 2 v_{10} + v_{1}\right)\\
+\end{equation}
+\begin{enumerate}
+\setcounter{enumi}{3}
+\item Write Matlab code to simulate these ten cells. There will be 20 equations $v,w$ for each cell. 
+\begin{enumerate}
+\item Assume there is no injection current. We expect all ten cells to settle at the same steady state. Make two plots. First, plot a time series of the membrane potential of all ten cells as a function of time. Second, make a movie of the voltage in all ten cells, where the horizontal axis is the cell number. 
+\begin{lstlisting}
+% movie
+for nt=1:numel(T)
+    figure(5); clf; hold on; box on;
+    plot(X(nt,1:10)); 
+    set(gca,'ylim', [-2.5,2.5])
+    xlabel('Cell');
+    ylabel('Voltage')
+    drawnow;
+end
+\end{lstlisting}
+
+\item Now assume that the fourth cell (and only the fourth cell) receives an injection current $I(t)$ as above, between $t=40$ and $t=47$. Make a time series with all ten cells. Make a movie with voltage for all cells.~\footnote{This type of behavior  is called an \emph{excitable traveling wave pulse}. These are unlike harmonic pulses familiar from sound waves, vibrations, light. For example, when two excitable pulses collide, they annihilate.}
+
+Hint: You do not need to make it generalize to different numbers of cells. In other words, don't try to make it work for an arbitrary number of cells, and then set the number of cells to 10. Just make it work for 10 cells. (Unless you want to make it generalized.) 
+\end{enumerate}
+\end{enumerate}
+
+
+
+
+
+  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+In this problem, we ask, if the axon is subject to a force, which mechanical element ``takes a bigger hit"?
+%%%%%%%%%%
+\begin{figure}[h!]
+\centering\includegraphics[width=10cm]{figHW11}
+\end{figure}
+%%%%%%%%%%
+
+

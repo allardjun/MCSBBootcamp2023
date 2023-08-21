@@ -1,0 +1,117 @@
+\documentclass{exam}
+\usepackage[utf8]{inputenc}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{multicol}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage[version=3]{mhchem}
+
+
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{0.05in}
+
+%\include{preamble}
+
+%\renewcommand{\thesection}{{Part \arabic{section}}}
+
+% Header and footer
+\pagestyle{headandfoot}
+\header{UCI MCSB Bootcamp Dry (Mathematical/Computational)}{}{}
+\headrule
+%\footer{\it{jun.allard@uci.edu}}{}{Page \thepage\ of \numpages}
+\footrule
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Project: Phosphorylation-dephosphorylation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+Many proteins are activated (phosphorylated) by enzymes called kinases, and deactivated (dephosphorylated) by enzymes called phosphatases. Intuitively, the fraction of active protein is determined by the balance of kinases to phosphatases. This balance is maintained by constant activation and inactivation in what is called \textit{futile cycle}.
+
+\begin{enumerate}[a.]
+\item Sketch a diagram where the horizontal axis is the ratio of kinase to phosphatase (say, in log scale), and the vertical axis is the fraction of activated protein in steady state. Use your intuition to sketch what you think the curve should look like.
+\end{enumerate}
+\vspace{2em}
+
+In mathematics, we call this plot a bifurcation diagram (the steady state as a function of a parameter). In biology, we call this particular plot a dose-response curve (how the output of a system responds to the dose of an input). 
+
+To activate the protein, the kinase must first bind to the inactive form, then catalyze activation. It may also unbind before it has a chance to catalyze. The same is true for the phosphatase. There are therefore 6 species of molecule.
+Let $[A]$ be the concentration of A, $[AP]$ be the concentration of AP complex, and so on. We have defined six populations, with concentrations:
+\begin{align*}
+[A]&&\qquad \mbox{unbound active protein}\\
+[I]&&\qquad \mbox{unbound inactive protein}\\
+[AP]&&\qquad \mbox{complex of active and phosphatase}\\
+[P] &= [P_{\rm tot}] - [AP] &\qquad \mbox{unbound phosphatase}\\
+[IK]& &\qquad \mbox{complex of inactive and kinase}\\
+[K] &= [K_{\rm tot}] - [IK] &\qquad \mbox{unbound kinase}
+\end{align*}
+Assume the total concentration of phosphatase $[P_{\rm tot}]$ and kinase $[K_{\rm tot}]$ are constant. Therefore, we do not need to track the concentration of P, since it is determined by $[P_{tot}]$ and $[AP]$. Similarly for K. Therefore, there are 4 concentrations to keep track of.
+
+There are 6 chemical reactions, shown below. 
+\begin{align}
+\ce{ I + K <->[${k_{\rm on}^I}$][${k_{\rm off}^I}$] IK ->[${k_{\rm cat}^A}$] A + K  }, \\
+\ce{ A + P <->[${k_{\rm on}^A}$][${k_{\rm off}^A}$] AP ->[${k_{\rm cat}^I}$] I + P  }
+\end{align}
+Let's assume reactions are proportional to the concentration of the reactants, so A+P $\rightarrow$ AP occurs at rate $k_{\rm on}^A [P] [A] = k_{\rm on}^A ([P_{\rm tot}] - [AP]) [A]$.
+Therefore, we have defined 6 rate parameters: 
+\begin{align*}
+k_{\rm on}^A &= 10 ~\mbox{s}^{-1}\mu\mbox{M}^{-1}\\
+k_{\rm off}^A &= 10 ~\mbox{s}^{-1} \\
+k_{\rm on}^I &= 10 ~\mbox{s}^{-1}\mu\mbox{M}^{-1}\\
+k_{\rm off}^I &= 10 ~\mbox{s}^{-1}\\
+k_{\rm cat}^I &= 10 ~\mbox{s}^{-1}\\
+k_{\rm cat}^A &= 100 ~\mbox{s}^{-1}
+\end{align*}
+
+\newpage
+
+\begin{enumerate}[a.]
+\setcounter{enumi}{1}
+\item Write down 4 ODEs describing the populations of A, I, AP and IK.  
+
+The first two equations are
+\begin{align}
+\frac{d{[A]}}{dt} &= -k_{\rm on}^A \left( [P_{\rm tot}] - [AP]\right) [A] + k_{\rm off}^A [AP] + k_{\rm cat}^A [IK],\\
+\frac{d{[AP]}}{dt} &= +k_{\rm on}^A \left( [P_{\rm tot}] - [AP]\right) [A] - k_{\rm off}^A [AP] - k_{\rm cat}^I [AP].
+\end{align}
+
+\item Assume that at time $t=0$, all of the protein is in the inactive state, and that its concentration is $I_{\rm tot}=1~\mu\mbox{M}$. What are the appropriate initial conditions for the ODEs?
+
+\item Write code to simulate this ODE system to steady state. Use parameters stated above, initial conditions from the previous question, and $I_{\rm tot}=1~\mu\mbox{M}$, and $K_{\rm tot}=1\mu$M and $P_{\rm tot}=1\mu$M.
+
+\item Do a parameter sweep in $K_{tot}$, logarithmic from $K_{tot} = 10^{-3} \mu$M to $K_{tot} = 10^{+2} \mu$M. Plot the total amount of activated protein in steady state as a function of $K_{tot}$ (with log axis in $K_{tot}$). Does the plot match the intuitive sketch you made in Question 1? 
+
+
+
+\item Now do the same parameter sweep in $K_{tot}$, identical to previous question except $I_{tot}=100\mu$M. 
+
+What changed? In what circumstances might a cell gain advantage from this kind of dose response curve (compared to the previous question with $I_{tot}=1\mu$M)? In what circumstances might a cell be disadvantaged by a dose response curve like this (compared to the previous question with $I_{tot}=1\mu$M)?~\footnote{This type of behavior in systems biology is called \emph{ultrasensitivity}. This particular type of ultrasensitivity is called \emph{Goldbeter-Koshland ultrasensitivity}.}
+
+
+\end{enumerate}
+
+
+
+
+
+  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+In this problem, we ask, if the axon is subject to a force, which mechanical element ``takes a bigger hit"?
+%%%%%%%%%%
+\begin{figure}[h!]
+\centering\includegraphics[width=10cm]{figHW11}
+\end{figure}
+%%%%%%%%%%
+
+

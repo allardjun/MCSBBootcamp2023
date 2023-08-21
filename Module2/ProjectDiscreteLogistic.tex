@@ -1,0 +1,68 @@
+\documentclass{exam}
+\usepackage[utf8]{inputenc}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{multicol}
+\usepackage{enumerate}
+\usepackage{graphicx}
+
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{0.05in}
+
+%\include{preamble}
+
+%\renewcommand{\thesection}{{Part \arabic{section}}}
+
+% Header and footer
+\pagestyle{headandfoot}
+\header{UCI MCSB Bootcamp Dry (Mathematical/Computational)}{}{}
+\headrule
+%\footer{\it{jun.allard@uci.edu}}{}{Page \thepage\ of \numpages}
+\footrule
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Project: Discrete logistic growth}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+Suppose a rabbit colony has a population $x(n)$ at month $n$, where $x$ is measured in thousands. If the population were growing in an unbounded environment, the population obeys
+\begin{equation}
+x(n+1) = x(n) + r \cdot x(n)
+\end{equation} 
+where $r$ is the per-capita growth rate. Suppose if instead the population is in a bounded environment (like an island), growth is limited, and the population obeys
+\begin{equation}
+x(n+1) = x(n) + r \left( 1- \frac{x(n)}{K}\right) x(n)
+\end{equation} 
+where $K$ is a parameter we refer to as the carrying capacity. 
+
+Suppose $r=0.1$ and $K=0.6$. 
+\begin{enumerate}[a.]
+\item According to your intuition, what population sizes are \textit{steady states}, meaning that if the population had that value at time $n=0$, then it would remain at that value?
+\item Sketch your intuition for the population $x(t)$ from a starting population $x(1)=0.2$. 
+\end{enumerate}
+
+Write code to solve the dynamical system, and answer the following questions:
+\begin{enumerate}[a.]
+\setcounter{enumi}{2}
+\item Suppose $r=0.1$ and $K=0.6$. Generate time series of the populations for a few starting populations~$x(1)$. Does it match your intuition?
+\item Suppose $r=2.1$ and $K=0.6$. Generate time series of the populations for a few starting populations~$x(1)$. 
+\end{enumerate}
+In a discrete-time dynamical system, if the population cycles between two values, the solution is called a two-cycle. Cycling between $N$ values is called an $N$-cycle. 
+\begin{enumerate}[a.]
+\setcounter{enumi}{4}
+\item Check that at $r=2.5$ and $K=0.6$ there is a 4-cycle. 
+\item (Optional) Can you find a value of $r,K$ and $x(1)$ that gives a 3-cycle?
+\item In this part, we will do a parameter sweep for $0<r<3.0$, with fixed $K=0.6$. The goal is to generate a diagram where the horizontal axis is the parameter value $r$. On the vertical axis, if there is a stable steady state, plot the steady-state population. If there is an $N$-cycle, plot the $N$ values of $x$ that it cycles through. \footnote{This type of behavior in a dynamical system is called \emph{chaos}! This particular type of chaos is called period-doubling chaos.}
+\begin{itemize}
+\item Hint: One way to plot the steady state or the $N$-cycle is to simulate the system until $n_{\rm max}$, and plot the last half values of $x(n)$. You need to choose $n_{\rm max}$ large enough so that the dynamics have settled into their steady state (or steady cycle) by $n_{\rm max}/2$.
+\item Hint: How many $r$ values should you explore? 
+\end{itemize}
+\end{enumerate}
+
+  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
