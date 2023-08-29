@@ -1,12 +1,12 @@
 # Module 1
 
-Team Door:
+Team Backdoor:
 
 * Kyla
 * Caroline
 * Austin
 
-Team Concrete Wall:
+Team Lectern:
 
 * Madi
 * Jacy
@@ -18,12 +18,12 @@ Team Window:
 * Ren
 * Qingyuan
 
-Team Art:
+Team LCD:
 
 * Luis
 * Luke
 
-Team Middle:
+Team Chair Stack:
 
 * Abbey
 * Zhishun
