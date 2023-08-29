@@ -13,3 +13,5 @@
 **/*.cb
 **/*.cb2
 **/*.lb
+**/*.synctex.gz
+**/*.fdb_latexmk
