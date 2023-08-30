@@ -1,4 +1,4 @@
-# Module 1
+# Module 2
 
 Team Backdoor:
 
@@ -18,12 +18,12 @@ Team Window:
 * Luke
 * Austin
 
-Team LCD:
+Team Art:
 
 * Ren
 * Rany
 
-Team Chair Stack:
+Team Clock:
 
 * Luis
 * Abbey
