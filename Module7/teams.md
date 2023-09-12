@@ -1,23 +1,24 @@
 # Teams
 
-Team Door:
+Team Backdoor:
 
 * Kyla
 * Ren
 * Rany
 
-Team Concrete Wall:
+Team Chair Stack:
 
 * Luke
 * Luis
 * Caroline
 
 Team Window:
+
 * Zhishun
 * Jacy
 * Austin
 
-Team Art:
+Team LCD:
 
 * Qingyuan
 * Arvind
