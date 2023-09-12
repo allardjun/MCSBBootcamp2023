@@ -20,7 +20,7 @@
 
 #define RAND genrand_real3()
 #define PI 3.14159265359
-#define nSample 2000
+#define nSample 20000
 
 /******************************************************************************/
 //  Variable declarations

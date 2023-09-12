@@ -6,7 +6,7 @@ import time
 dt = 0.001  # s
 ntmax = int(1e6)
 
-NSample = 1  # number of samples
+NSample = 200  # number of samples
 
 # model parameters
 D = 10  # microns^2/second
@@ -50,12 +50,12 @@ for iSample in range(NSample):
         t += dt
 
         # visualize
-        plt.plot(x[0], x[1], '-ob')
-        plt.draw()
-        plt.pause(0.001)  # add a short pause for the plot to update
+        #plt.plot(x[0], x[1], '-ob')
+        #plt.draw()
+        #plt.pause(0.001)  # add a short pause for the plot to update
         
 
-    print('Sample %d: tCapture = %f' % (iSample, tCapture[iSample]))
+    #print('Sample %d: tCapture = %f' % (iSample, tCapture[iSample]))
 
 end = time.time()
 print("Elapsed time: ", end - start)

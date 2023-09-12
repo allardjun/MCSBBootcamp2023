@@ -1,6 +1,6 @@
 % model parameters
 eps = 0.08;
-a = 1.00;
+a = 0.5;
 b = 0.2;
 
 % model definition
@@ -15,7 +15,7 @@ dxdt =@ (t,x) [f(x(1),x(2)); g(x(1),x(2));];
 
 
 
-figure(4); hold on;
+figure(405); clf; hold on;
 set(gca, 'xlim', [-2.5, 2.5], 'ylim', [-2.5,2.5])
 ylabel('w');
 xlabel('v')

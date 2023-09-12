@@ -7,7 +7,7 @@
 dt = 0.001; % s
 ntmax = 1e6;
 
-NSample = 2000; % number of samples
+NSample = 20000; % number of samples
 
 % model parameters
 D = 10; %microns^2/second
@@ -82,3 +82,5 @@ toc % report the time
 figure(2); clf; hold on; box on;
 histogram(tCapture)
 %set(gca,'yscale','log')
+
+display(mean(tCapture))
