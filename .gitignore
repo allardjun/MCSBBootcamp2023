@@ -1,5 +1,8 @@
 **/.DS_Store
 
+.vscode/*
+.vscode/
+
 ## Core latex/pdflatex auxiliary files:
 **/*.aux
 **/*.lof
@@ -15,3 +18,4 @@
 **/*.lb
 **/*.synctex.gz
 **/*.fdb_latexmk
+
