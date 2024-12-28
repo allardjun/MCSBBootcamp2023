@@ -60,6 +60,8 @@ for iParam=1:nParam
         fracA = X(:,1)./sum(X,2);
         
         plot(T,fracA);
+
+        pause;
     end
     
     % data collection
